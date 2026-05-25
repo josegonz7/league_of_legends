@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @Document(collection = "characters")
-public class character {
+public class Character {
     @Id
     private String id;
 
