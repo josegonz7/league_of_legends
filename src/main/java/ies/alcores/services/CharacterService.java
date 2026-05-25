@@ -21,20 +21,27 @@ public class CharacterService {
     public Optional<Character> findById(final String id) {
         return this.characterRepository.findById(id);
     }
-    
-    public Character save(final Character character) {
-        return this.characterRepository.save(character);
+
+    //Dado un character lo persiste en base de datos
+    public Optional<Character> save(final Character character) {
+        return Optional.of(this.characterRepository.save(character));
     }
 
-    //Dado un id de character lo elimina
-    public boolean delete(final String id) {
+    //Dado un id de character, lo elimina
+    public Optional<Character> delete(final String id) {
         return this.characterRepository.findById(id)
                 .map((Character character) -> {
                     this.characterRepository.delete(character);
-                    return true;
-                })
-                .orElse(false);
+                    return character;
+                });
+    }
+
+    //Dado un JSON de un Character (el cual incluye ID) lo actualiza
+    public Optional<Character> update(final String id, final Character character) {
+        return this.characterRepository.findById(character.getId())
+                .map((Character c) -> {
+                    character.setId(id);
+                    return this.characterRepository.save(character);
+                });
     }
 }
-//this.characterRepository.findById(id);
-//                .ifPresent(this.characterRepository::delete);
